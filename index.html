@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Результаты курьеров</title>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0f2ff;
+    --muted: #8b90a8;
+    --hint: #555a72;
+    --green: #2dd4a0;
+    --green-bg: rgba(45,212,160,0.1);
+    --red: #f5626a;
+    --red-bg: rgba(245,98,106,0.1);
+    --blue: #5b9cf6;
+    --blue-bg: rgba(91,156,246,0.1);
+    --amber: #f5a623;
+    --amber-bg: rgba(245,166,35,0.1);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Golos Text', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* HEADER */
+  .top-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .top-bar h1 { font-size: 16px; font-weight: 600; letter-spacing: 0.01em; }
+  .top-bar h1 span { color: var(--muted); font-weight: 400; margin-left: 8px; font-size: 14px; }
+  .week-pill {
+    font-size: 12px;
+    background: var(--blue-bg);
+    color: var(--blue);
+    border: 1px solid rgba(91,156,246,0.2);
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+
+  .main { padding: 28px 32px; max-width: 1200px; margin: 0 auto; }
+
+  /* SUMMARY CARDS */
+  .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+  .s-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .s-card .s-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 10px; }
+  .s-card .s-val { font-size: 28px; font-weight: 700; line-height: 1; }
+  .s-card .s-sub { font-size: 12px; color: var(--hint); margin-top: 5px; }
+  .val-green { color: var(--green); }
+  .val-red { color: var(--red); }
+  .val-blue { color: var(--blue); }
+
+  /* FILTERS */
+  .filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  .f-label { font-size: 13px; color: var(--muted); margin-right: 4px; }
+  .pill {
+    font-size: 12px; padding: 6px 14px; border-radius: 20px; cursor: pointer;
+    border: 1px solid var(--border2); background: transparent; color: var(--muted);
+    transition: all 0.15s; font-family: 'Golos Text', sans-serif;
+  }
+  .pill:hover { border-color: rgba(255,255,255,0.25); color: var(--text); }
+  .pill.active { background: var(--blue-bg); color: var(--blue); border-color: rgba(91,156,246,0.3); }
+
+  /* CARDS GRID */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+
+  .c-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .c-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    border-radius: 3px 0 0 3px;
+  }
+  .c-card.on-track::before { background: var(--green); }
+  .c-card.behind::before { background: var(--red); }
+  .c-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+
+  /* NAME ROW */
+  .name-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  .c-name { font-size: 14px; font-weight: 600; line-height: 1.3; }
+
+  /* METRICS */
+  .metric { margin-bottom: 12px; }
+  .metric-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; }
+  .metric-label { color: var(--muted); }
+  .metric-val { font-weight: 600; }
+  .bar-track { height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+
+  /* TOOLTIP */
+  .tip-wrap { position: relative; display: inline-flex; align-items: center; gap: 4px; cursor: default; }
+  .tip-icon { width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--hint); display: inline-flex; align-items: center; justify-content: center; font-size: 9px; color: var(--hint); line-height: 1; flex-shrink: 0; }
+  .tip-box {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    white-space: nowrap;
+    font-size: 12px;
+    z-index: 20;
+    min-width: 150px;
+  }
+  .tip-wrap:hover .tip-box { display: block; }
+  .tip-row { display: flex; justify-content: space-between; gap: 20px; padding: 3px 0; }
+  .tip-row:not(:last-child) { border-bottom: 1px solid var(--border); }
+  .t-lbl { color: var(--muted); }
+  .t-green { color: var(--green); font-weight: 600; }
+  .t-red { color: var(--red); font-weight: 600; }
+  .t-total { color: var(--text); font-weight: 600; }
+
+  /* BOTTOM ROW */
+  .bottom-row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .time-info { font-size: 12px; color: var(--muted); }
+  .time-val { font-weight: 600; margin-left: 4px; }
+  .status-badge { font-size: 11px; padding: 3px 9px; border-radius: 6px; font-weight: 500; }
+  .status-badge.ok { background: var(--green-bg); color: var(--green); }
+  .status-badge.warn { background: var(--red-bg); color: var(--red); }
+
+  .empty-state { text-align: center; padding: 60px 0; color: var(--muted); font-size: 15px; }
+
+  @media (max-width: 700px) {
+    .top-bar { padding: 14px 16px; }
+    .main { padding: 16px; }
+    .summary { grid-template-columns: repeat(2, 1fr); }
+    .cards-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>Курьеры <span id="teamName">Группа А</span></h1>
+  <span class="week-pill" id="weekLabel">Неделя 1 · Июнь 2026</span>
+</div>
+
+<div class="main">
+  <div class="summary" id="summaryGrid"></div>
+  <div class="filters">
+    <span class="f-label">Показать:</span>
+    <button class="pill active" onclick="filter('all',this)">Все</button>
+    <button class="pill" onclick="filter('ok',this)">Выполняют план</button>
+    <button class="pill" onclick="filter('behind',this)">Отстают по часам</button>
+    <button class="pill" onclick="filter('accept',this)">% принятия &lt; 90%</button>
+  </div>
+  <div class="cards-grid" id="cardsGrid"></div>
+</div>
+
+<script>
+/* ======================================================
+   ДАННЫЕ — ОБНОВЛЯЙ ТОЛЬКО ЭТОТ БЛОК КАЖДУЮ НЕДЕЛЮ
+   ====================================================== */
+const WEEK_LABEL = "Неделя 1 · Июнь 2026";
+const TEAM_NAME  = "Группа А";
+const HOURS_GOAL    = 216;
+const TIME_GOAL     = 38.0;
+const ACCEPT_GOAL   = 90;
+
+const data = [
+  { name: "Айтбай Исатай",      hours: 214, avg: 57.2, accept: 83,   accepted: 20, declined: 4  },
+  { name: "Алимкулов Тимур",    hours: 70,  avg: 50.8, accept: 78,   accepted: 7,  declined: 2  },
+  { name: "Есенбек Ернар",      hours: 302, avg: 55.2, accept: 58,   accepted: 25, declined: 18 },
+  { name: "Котов Вячеслав",     hours: 326, avg: 45.2, accept: 61,   accepted: 63, declined: 40 },
+  { name: "Нүрсейіт Аслан",     hours: 303, avg: 40.3, accept: 59,   accepted: 70, declined: 48 },
+  { name: "Ташимов Азамат",     hours: 343, avg: 38.5, accept: 59,   accepted: 47, declined: 33 },
+  { name: "Ташимов Бауыржан",   hours: 309, avg: 32.4, accept: 82,   accepted: 68, declined: 15 },
+  { name: "Желдербаев Жасулан", hours: 287, avg: 38.0, accept: 81,   accepted: 46, declined: 11 },
+  { name: "Байкадамов Бекежан", hours: 270, avg: 34.3, accept: 64,   accepted: 60, declined: 34 },
+  { name: "Наушабаев Несипхан", hours: 45,  avg: 36.0, accept: 73,   accepted: 8,  declined: 3  },
+  { name: "Тугелбаев Досбол",   hours: 343, avg: 37.0, accept: 80.5, accepted: 62, declined: 15 },
+];
+/* ====================================================== */
+
+const AVATAR_COLORS = [
+  ['#1e3a5f','#5b9cf6'],['#0d3326','#2dd4a0'],['#3d1a1c','#f5626a'],
+  ['#2d1f00','#f5a623'],['#1a1040','#a78bfa'],['#0d2a2a','#34d4d4'],
+  ['#3a1a30','#f472b6'],['#1a2e1a','#86efac'],['#2e2210','#fcd34d'],
+  ['#1e1a3a','#818cf8'],['#2a1a10','#fb923c'],
+];
+
+function initials(name) {
+  const p = name.trim().split(/\s+/);
+  return (p[0][0] + (p[1] ? p[1][0] : '')).toUpperCase();
+}
+
+document.getElementById('weekLabel').textContent = WEEK_LABEL;
+document.getElementById('teamName').textContent = TEAM_NAME;
+
+function renderSummary() {
+  const n = data.length;
+  const onTrack = data.filter(d => d.hours >= HOURS_GOAL).length;
+  const avgAcc = (data.reduce((s,d) => s + d.accept, 0) / n).toFixed(1);
+  const meetAcc = data.filter(d => d.accept >= ACCEPT_GOAL).length;
+  document.getElementById('summaryGrid').innerHTML = `
+    <div class="s-card">
+      <div class="s-label">Курьеров</div>
+      <div class="s-val val-blue">${n}</div>
+      <div class="s-sub">в группе</div>
+    </div>
+    <div class="s-card">
+      <div class="s-label">Выполняют план часов</div>
+      <div class="s-val ${onTrack >= n/2 ? 'val-green':'val-red'}">${onTrack}</div>
+      <div class="s-sub">из ${n} человек</div>
+    </div>
+    <div class="s-card">
+      <div class="s-label">Среднее % принятия</div>
+      <div class="s-val ${+avgAcc >= ACCEPT_GOAL ? 'val-green':'val-red'}">${avgAcc}%</div>
+      <div class="s-sub">цель: ${ACCEPT_GOAL}%</div>
+    </div>
+    <div class="s-card">
+      <div class="s-label">Достигли цели % прин.</div>
+      <div class="s-val ${meetAcc >= n/2 ? 'val-green':'val-amber'}">${meetAcc}</div>
+      <div class="s-sub">из ${n} человек</div>
+    </div>`;
+}
+
+let currentFilter = 'all';
+function filter(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderCards();
+}
+
+function renderCards() {
+  let list = data;
+  if (currentFilter === 'ok')     list = data.filter(d => d.hours >= HOURS_GOAL);
+  if (currentFilter === 'behind') list = data.filter(d => d.hours < HOURS_GOAL);
+  if (currentFilter === 'accept') list = data.filter(d => d.accept < ACCEPT_GOAL);
+
+  if (!list.length) {
+    document.getElementById('cardsGrid').innerHTML = '<div class="empty-state">Нет курьеров по выбранному фильтру</div>';
+    return;
+  }
+
+  document.getElementById('cardsGrid').innerHTML = list.map((d, i) => {
+    const ci = i % AVATAR_COLORS.length;
+    const [bgC, fgC] = AVATAR_COLORS[ci];
+    const hoursOk  = d.hours >= HOURS_GOAL;
+    const acceptOk = d.accept >= ACCEPT_GOAL;
+    const timeOk   = d.avg <= TIME_GOAL;
+    const diff     = d.hours - HOURS_GOAL;
+    const diffStr  = diff >= 0 ? `+${diff} ч` : `${diff} ч`;
+    const diffColor = diff >= 0 ? 'var(--blue)' : 'var(--red)';
+    const hPct     = Math.min(Math.round(d.hours / HOURS_GOAL * 100), 100);
+    const aPct     = Math.min(Math.round(d.accept), 100);
+    const allOk    = hoursOk && acceptOk;
+
+    return `
+    <div class="c-card ${hoursOk ? 'on-track' : 'behind'}">
+      <div class="name-row">
+        <div class="avatar" style="background:${bgC};color:${fgC}">${initials(d.name)}</div>
+        <div class="c-name">${d.name}</div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-header">
+          <span class="metric-label">Часы</span>
+          <span class="metric-val" style="color:${hoursOk?'var(--green)':'var(--red)'}">
+            ${d.hours} / ${HOURS_GOAL}
+            <span style="color:${diffColor};font-size:11px;margin-left:4px">${diffStr}</span>
+          </span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:${hPct}%;background:${hoursOk?'var(--green)':'var(--red)'}"></div></div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-header">
+          <span class="metric-label">% принятия</span>
+          <span class="tip-wrap">
+            <span class="metric-val" style="color:${acceptOk?'var(--green)':'var(--red)'}">${d.accept}%</span>
+            <span class="tip-icon">i</span>
+            <div class="tip-box">
+              <div class="tip-row"><span class="t-lbl">Принял</span><span class="t-green">✓ ${d.accepted}</span></div>
+              <div class="tip-row"><span class="t-lbl">Отклонил</span><span class="t-red">✗ ${d.declined}</span></div>
+              <div class="tip-row"><span class="t-lbl">Всего</span><span class="t-total">${d.accepted + d.declined}</span></div>
+            </div>
+          </span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:${aPct}%;background:${acceptOk?'var(--green)':'var(--red)'}"></div></div>
+      </div>
+
+      <div class="bottom-row">
+        <span class="time-info">
+          Ср. время <span class="time-val" style="color:${timeOk?'var(--green)':'var(--amber)'}">${d.avg} мин</span>
+          ${timeOk ? '' : '<span style="color:var(--amber);font-size:11px"> ↑ выше нормы</span>'}
+        </span>
+        <span class="status-badge ${allOk?'ok':'warn'}">${allOk ? 'В норме' : 'Отклонения'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+renderSummary();
+renderCards();
+</script>
+</body>
+</html>
