@@ -27,96 +27,43 @@
     --radius-sm: 8px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Golos Text', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
+  body { font-family: 'Golos Text', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-  /* HEADER */
   .top-bar {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
   }
   .top-bar h1 { font-size: 15px; font-weight: 600; }
   .top-bar h1 span { color: var(--muted); font-weight: 400; margin-left: 6px; font-size: 13px; }
-  .week-pill {
-    font-size: 11px;
-    background: var(--blue-bg);
-    color: var(--blue);
-    border: 1px solid rgba(91,156,246,0.2);
-    padding: 4px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
-  }
+  .week-pill { font-size: 11px; background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(91,156,246,0.2); padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
 
   .main { padding: 20px 16px; max-width: 1200px; margin: 0 auto; }
 
-  /* SUMMARY */
   .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-  .s-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-  }
+  .s-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
   .s-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; }
   .s-val { font-size: 26px; font-weight: 700; line-height: 1; }
   .s-sub { font-size: 11px; color: var(--hint); margin-top: 4px; }
-  .val-green { color: var(--green); }
-  .val-red { color: var(--red); }
-  .val-blue { color: var(--blue); }
+  .val-green { color: var(--green); } .val-red { color: var(--red); } .val-blue { color: var(--blue); }
 
-  /* FILTERS */
   .filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
   .f-label { font-size: 12px; color: var(--muted); }
-  .pill {
-    font-size: 12px; padding: 5px 12px; border-radius: 20px; cursor: pointer;
-    border: 1px solid var(--border2); background: transparent; color: var(--muted);
-    transition: all 0.15s; font-family: 'Golos Text', sans-serif;
-  }
+  .pill { font-size: 12px; padding: 5px 12px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border2); background: transparent; color: var(--muted); transition: all 0.15s; font-family: 'Golos Text', sans-serif; }
   .pill:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
   .pill.active { background: var(--blue-bg); color: var(--blue); border-color: rgba(91,156,246,0.3); }
 
-  /* CARDS */
   .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
 
-  .c-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.2s;
-  }
-  .c-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-  }
+  .c-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; position: relative; overflow: hidden; transition: border-color 0.2s; }
+  .c-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; }
   .c-card.on-track::before { background: var(--green); }
   .c-card.behind::before { background: var(--red); }
 
-  /* NAME */
   .name-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .avatar {
-    width: 34px; height: 34px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 700; flex-shrink: 0;
-  }
+  .avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
   .c-name { font-size: 13px; font-weight: 600; line-height: 1.3; }
 
-  /* METRICS */
   .metric { margin-bottom: 10px; }
   .metric-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 11px; }
   .metric-label { color: var(--muted); }
@@ -124,39 +71,23 @@
   .bar-track { height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
   .bar-fill { height: 100%; border-radius: 3px; }
 
-  /* ACCEPT/DECLINE CHIPS — always visible */
-  .accept-row {
-    display: flex;
-    gap: 6px;
-    margin-top: 6px;
-    flex-wrap: wrap;
-  }
-  .chip {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-  }
+  .accept-row { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+  .chip { display: flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
   .chip-green { background: var(--green-bg); color: var(--green); }
-  .chip-red   { background: var(--red-bg);   color: var(--red);   }
+  .chip-red { background: var(--red-bg); color: var(--red); }
   .chip-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
   .chip-green .chip-dot { background: var(--green); }
-  .chip-red   .chip-dot { background: var(--red);   }
+  .chip-red .chip-dot { background: var(--red); }
 
-  /* BOTTOM */
   .bottom-row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
   .time-info { font-size: 11px; color: var(--muted); }
   .time-val { font-weight: 600; margin-left: 3px; }
   .status-badge { font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 500; }
-  .badge-ok   { background: var(--green-bg); color: var(--green); }
-  .badge-warn { background: var(--red-bg);   color: var(--red);   }
+  .badge-ok { background: var(--green-bg); color: var(--green); }
+  .badge-warn { background: var(--red-bg); color: var(--red); }
 
   .empty-state { text-align: center; padding: 60px 0; color: var(--muted); }
 
-  /* MOBILE */
   @media (max-width: 600px) {
     .summary { grid-template-columns: repeat(2, 1fr); }
     .cards-grid { grid-template-columns: 1fr; }
@@ -179,34 +110,30 @@
     <button class="pill active" onclick="filter('all',this)">Все</button>
     <button class="pill" onclick="filter('ok',this)">Выполняют план</button>
     <button class="pill" onclick="filter('behind',this)">Отстают по часам</button>
-    <button class="pill" onclick="filter('accept',this)">% принятия &lt; 90%</button>
+    <button class="pill" onclick="filter('accept',this)">% принятия < 80%</button>
   </div>
   <div class="cards-grid" id="cardsGrid"></div>
 </div>
 
 <script>
-/* =============================================
-   ОБНОВЛЯЙ ТОЛЬКО ЭТОТ БЛОК КАЖДУЮ НЕДЕЛЮ
-   ============================================= */
-const WEEK_LABEL   = "Неделя 2 · Июнь 2026";
-const TEAM_NAME    = "Группа А";
-const HOURS_GOAL   = 216;
-const TIME_GOAL    = 35.0;
-const ACCEPT_GOAL  = 90;
+const WEEK_LABEL  = "Неделя 3 · Июнь 2026";
+const TEAM_NAME   = "Группа А";
+const HOURS_GOAL  = 216;
+const TIME_GOAL   = 40.0;
+const ACCEPT_GOAL = 80;
 
 const data = [
-  { name: "Айтбай Исатай",      hours: 32,  avg: 51.2, accept: 67,  accepted: 2,  declined: 1 },
-  { name: "Есенбек Ернар",      hours: 72,  avg: 59.0, accept: 38,  accepted: 6,  declined: 10 },
-  { name: "Котов Вячеслав",     hours: 40,  avg: 42.2, accept: 67,  accepted: 8,  declined: 4 },
-  { name: "Нүрсейіт Аслан",     hours: 56,  avg: 40.5, accept: 71,  accepted: 10, declined: 4 },
-  { name: "Сөрсенбаев Саят",    hours: 68,  avg: 41.8, accept: 56,  accepted: 5,  declined: 4 },
-  { name: "Ташимов Азамат",     hours: 88,  avg: 46.1, accept: 67,  accepted: 12, declined: 6 },
-  { name: "Ташимов Бауыржан",   hours: 82,  avg: 40.1, accept: 88,  accepted: 14, declined: 2 },
-  { name: "Желдербаев Жасулан", hours: 50,  avg: 41.0, accept: 100, accepted: 3,  declined: 0 },
-  { name: "Байкадамов Бекежан", hours: 59,  avg: 32.7, accept: 63,  accepted: 15, declined: 9 },
-  { name: "Тугелбаев Досбол",   hours: 146, avg: 45.2, accept: 73,  accepted: 8,  declined: 3 },
+  { name: "Айтбай Исатай",      hours: 77,  avg: 52.8, accept: 22,  accepted: 2,  declined: 7  },
+  { name: "Есенбек Ернар",      hours: 109, avg: 60.0, accept: 39,  accepted: 7,  declined: 11 },
+  { name: "Котов Вячеслав",     hours: 70,  avg: 46.5, accept: 72,  accepted: 18, declined: 7  },
+  { name: "Нүрсейіт Аслан",     hours: 133, avg: 42.6, accept: 75,  accepted: 18, declined: 6  },
+  { name: "Сөрсенбаев Саят",    hours: 120, avg: 41.6, accept: 73,  accepted: 11, declined: 4  },
+  { name: "Ташимов Азамат",     hours: 158, avg: 43.5, accept: 70,  accepted: 23, declined: 10 },
+  { name: "Ташимов Бауыржан",   hours: 82,  avg: 40.1, accept: 88,  accepted: 14, declined: 2  },
+  { name: "Желдербаев Жасулан", hours: 102, avg: 42.9, accept: 100, accepted: 9,  declined: 0  },
+  { name: "Байкадамов Бекежан", hours: 112, avg: 40.7, accept: 68,  accepted: 28, declined: 13 },
+  { name: "Тугелбаев Досбол",   hours: 111, avg: 60.0, accept: 72,  accepted: 13, declined: 5  },
 ];
-/* ============================================= */
 
 const COLORS = [
   ['#1e3a5f','#5b9cf6'],['#0d3326','#2dd4a0'],['#3d1a1c','#f5626a'],
@@ -229,26 +156,10 @@ function renderSummary() {
   const avgAcc  = (data.reduce((s,d) => s + d.accept, 0) / n).toFixed(1);
   const meetAcc = data.filter(d => d.accept >= ACCEPT_GOAL).length;
   document.getElementById('summaryGrid').innerHTML = `
-    <div class="s-card">
-      <div class="s-label">Курьеров</div>
-      <div class="s-val val-blue">${n}</div>
-      <div class="s-sub">в группе</div>
-    </div>
-    <div class="s-card">
-      <div class="s-label">Выполняют план часов</div>
-      <div class="s-val ${onTrack > 0 ? 'val-green' : 'val-red'}">${onTrack}</div>
-      <div class="s-sub">из ${n} человек</div>
-    </div>
-    <div class="s-card">
-      <div class="s-label">Среднее % принятия</div>
-      <div class="s-val ${+avgAcc >= ACCEPT_GOAL ? 'val-green' : 'val-red'}">${avgAcc}%</div>
-      <div class="s-sub">цель: ${ACCEPT_GOAL}%</div>
-    </div>
-    <div class="s-card">
-      <div class="s-label">Достигли цели %</div>
-      <div class="s-val ${meetAcc > 0 ? 'val-green' : 'val-red'}">${meetAcc}</div>
-      <div class="s-sub">из ${n} человек</div>
-    </div>`;
+    <div class="s-card"><div class="s-label">Курьеров</div><div class="s-val val-blue">${n}</div><div class="s-sub">в группе</div></div>
+    <div class="s-card"><div class="s-label">Выполняют план часов</div><div class="s-val ${onTrack > 0 ? 'val-green':'val-red'}">${onTrack}</div><div class="s-sub">из ${n} человек</div></div>
+    <div class="s-card"><div class="s-label">Среднее % принятия</div><div class="s-val ${+avgAcc >= ACCEPT_GOAL ? 'val-green':'val-red'}">${avgAcc}%</div><div class="s-sub">цель: ${ACCEPT_GOAL}%</div></div>
+    <div class="s-card"><div class="s-label">Достигли цели %</div><div class="s-val ${meetAcc > 0 ? 'val-green':'val-red'}">${meetAcc}</div><div class="s-sub">из ${n} человек</div></div>`;
 }
 
 let cur = 'all';
@@ -276,51 +187,18 @@ function renderCards() {
     const acceptOk = d.accept >= ACCEPT_GOAL;
     const timeOk   = d.avg <= TIME_GOAL;
     const diff     = d.hours - HOURS_GOAL;
-    const diffStr  = diff >= 0 ? `+${diff} ч` : `${diff} ч`;
+    const diffStr  = diff >= 0 ? '+'+diff+' ч' : diff+' ч';
     const diffColor = diff >= 0 ? 'var(--blue)' : 'var(--red)';
     const hPct     = Math.min(Math.round(d.hours / HOURS_GOAL * 100), 100);
     const aPct     = Math.min(d.accept, 100);
 
-    return `
-    <div class="c-card ${hoursOk ? 'on-track' : 'behind'}">
-      <div class="name-row">
-        <div class="avatar" style="background:${bgC};color:${fgC}">${initials(d.name)}</div>
-        <div class="c-name">${d.name}</div>
-      </div>
-
-      <div class="metric">
-        <div class="metric-header">
-          <span class="metric-label">Часы</span>
-          <span class="metric-val" style="color:${hoursOk?'var(--green)':'var(--red)'}">
-            ${d.hours} / ${HOURS_GOAL}
-            <span style="color:${diffColor};font-size:11px;margin-left:3px">${diffStr}</span>
-          </span>
-        </div>
-        <div class="bar-track"><div class="bar-fill" style="width:${hPct}%;background:${hoursOk?'var(--green)':'var(--red)'}"></div></div>
-      </div>
-
-      <div class="metric">
-        <div class="metric-header">
-          <span class="metric-label">% принятия</span>
-          <span class="metric-val" style="color:${acceptOk?'var(--green)':'var(--red)'}">${d.accept}%</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill" style="width:${aPct}%;background:${acceptOk?'var(--green)':'var(--red)'}"></div></div>
-        <div class="accept-row">
-          <span class="chip chip-green"><span class="chip-dot"></span>Принял: ${d.accepted}</span>
-          <span class="chip chip-red"><span class="chip-dot"></span>Отклонил: ${d.declined}</span>
-        </div>
-      </div>
-
-      <div class="bottom-row">
-        <span class="time-info">Ср. время
-          <span class="time-val" style="color:${timeOk?'var(--green)':'var(--amber)'}">${d.avg} мин</span>
-          ${!timeOk ? '<span style="color:var(--amber);font-size:10px"> ↑</span>' : ''}
-        </span>
-        <span class="status-badge ${hoursOk && acceptOk ? 'badge-ok' : 'badge-warn'}">
-          ${hoursOk && acceptOk ? 'В норме' : 'Отклонения'}
-        </span>
-      </div>
-    </div>`;
+    return '<div class="c-card '+(hoursOk?'on-track':'behind')+'">' +
+      '<div class="name-row"><div class="avatar" style="background:'+bgC+';color:'+fgC+'">'+initials(d.name)+'</div><div class="c-name">'+d.name+'</div></div>' +
+      '<div class="metric"><div class="metric-header"><span class="metric-label">Часы</span><span class="metric-val" style="color:'+(hoursOk?'var(--green)':'var(--red)')+'">'+d.hours+' / '+HOURS_GOAL+' <span style="color:'+diffColor+';font-size:11px;margin-left:3px">'+diffStr+'</span></span></div><div class="bar-track"><div class="bar-fill" style="width:'+hPct+'%;background:'+(hoursOk?'var(--green)':'var(--red)')+'"></div></div></div>' +
+      '<div class="metric"><div class="metric-header"><span class="metric-label">% принятия</span><span class="metric-val" style="color:'+(acceptOk?'var(--green)':'var(--red)')+'">'+d.accept+'%</span></div><div class="bar-track"><div class="bar-fill" style="width:'+aPct+'%;background:'+(acceptOk?'var(--green)':'var(--red)')+'"></div></div>' +
+      '<div class="accept-row"><span class="chip chip-green"><span class="chip-dot"></span>Принял: '+d.accepted+'</span><span class="chip chip-red"><span class="chip-dot"></span>Отклонил: '+d.declined+'</span></div></div>' +
+      '<div class="bottom-row"><span class="time-info">Ср. время <span class="time-val" style="color:'+(timeOk?'var(--green)':'var(--amber)')+'">'+d.avg+' мин</span>'+(timeOk?'':' <span style="color:var(--amber);font-size:10px">↑</span>')+'</span><span class="status-badge '+(hoursOk&&acceptOk?'badge-ok':'badge-warn')+'">'+(hoursOk&&acceptOk?'В норме':'Отклонения')+'</span></div>' +
+      '</div>';
   }).join('');
 }
 
