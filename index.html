@@ -200,20 +200,20 @@
 <script>
 const TARGET_HOURS = 216;
 const TARGET_TIME = 40.0;
-const TARGET_ACCEPT = 80;
+const TARGET_ACCEPT = 90;
 
 const colors = ["#3B6FE0","#1F6B4C","#8A2E2E","#6B4A20","#5B3B8C","#2E7D7A","#8C2E63","#2E6B8C","#5C6B1F","#3D3B8C"];
 
 const data = [
-  { name:"Айтбай Исатай",      hours:83,  delta:133, avgTime:56.0, accepted:2,  declined:0  },
-  { name:"Есенбек Ернар",      hours:75,  delta:141, avgTime:54.9, accepted:6,  declined:5  },
-  { name:"Желдербаев Жасулан", hours:40,  delta:176, avgTime:47.6, accepted:3,  declined:1  },
-  { name:"Нурсейт Аслан",      hours:124, delta:92,  avgTime:40.4, accepted:20, declined:13 },
-  { name:"Ташимов Бауыржан",   hours:98,  delta:118, avgTime:39.2, accepted:8,  declined:0  },
-  { name:"Байкадамов Бекежан", hours:82,  delta:134, avgTime:33.5, accepted:11, declined:5  },
-  { name:"Сарсенбаев Саят",    hours:95,  delta:121, avgTime:44.7, accepted:6,  declined:3  },
-  { name:"Ташимов Азамат",     hours:139, delta:77,  avgTime:43.3, accepted:7,  declined:8  },
-  { name:"Тугелбаев Досбол",   hours:139, delta:77,  avgTime:38.9, accepted:21, declined:2  },
+  { name:"Айтбай Исатай",      hours:120, delta:96,   avgTime:41.0, accepted:3,  declined:0  },
+  { name:"Есенбек Ернар",      hours:238, delta:-22,  avgTime:54.8, accepted:30, declined:14 },
+  { name:"Желдербаев Жасулан", hours:78,  delta:138,  avgTime:44.3, accepted:6,  declined:4  },
+  { name:"Нурсейт Аслан",      hours:269, delta:-53,  avgTime:40.3, accepted:45, declined:29 },
+  { name:"Ташимов Бауыржан",   hours:249, delta:-33,  avgTime:40.2, accepted:36, declined:12 },
+  { name:"Байкадамов Бекежан", hours:223, delta:-7,   avgTime:34.3, accepted:37, declined:18 },
+  { name:"Сарсенбаев Саят",    hours:249, delta:-33,  avgTime:47.4, accepted:16, declined:4  },
+  { name:"Ташимов Азамат",     hours:185, delta:31,   avgTime:42.8, accepted:17, declined:17 },
+  { name:"Тугелбаев Досбол",   hours:326, delta:-110, avgTime:41.0, accepted:50, declined:7  },
 ].map((d,i) => ({
   ...d,
   accept: Math.round((d.accepted/(d.accepted+d.declined))*100),
