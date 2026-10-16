@@ -205,13 +205,14 @@ const TARGET_ACCEPT = 90;
 const colors = ["#3B6FE0","#1F6B4C","#8A2E2E","#6B4A20","#5B3B8C","#2E7D7A","#8C2E63","#2E6B8C","#5C6B1F","#3D3B8C"];
 
 const data = [
-  { name:"Есенбек Ернар",      hours:268, delta:-52,  avgTime:54.4, accepted:26, declined:15 },
-  { name:"Сарсенбаев Саят",    hours:232, delta:-16,  avgTime:48.6, accepted:33, declined:13 },
-  { name:"Ташимов Азамат",     hours:340, delta:-124, avgTime:49.2, accepted:42, declined:30 },
-  { name:"Тугелбаев Досбол",   hours:299, delta:-83,  avgTime:43.0, accepted:59, declined:22 },
-  { name:"Едилов Ерболат",     hours:159, delta:57,   avgTime:60.7, accepted:9,  declined:2  },
-  { name:"Аязбеков Ануар",     hours:243, delta:-27,  avgTime:52.7, accepted:25, declined:22 },
-  { name:"Жарылқасын Қажымұқан", hours:274, delta:-58, avgTime:57.1, accepted:14, declined:0 },
+  { name:"Есенбек Ернар",      hours:118, delta:98,  avgTime:65.3, accepted:14, declined:11 },
+  { name:"Ташимов Бауыржан",   hours:129, delta:87,  avgTime:48.9, accepted:20, declined:8  },
+  { name:"Сарсенбаев Саят",    hours:44,  delta:172, avgTime:57.7, accepted:8,  declined:4  },
+  { name:"Ташимов Азамат",     hours:165, delta:51,  avgTime:50.4, accepted:24, declined:8  },
+  { name:"Тугелбаев Досбол",   hours:141, delta:75,  avgTime:47.6, accepted:23, declined:2  },
+  { name:"Едилов Ерболат",     hours:54,  delta:162, avgTime:63.2, accepted:4,  declined:2  },
+  { name:"Аязбеков Ануар",     hours:73,  delta:143, avgTime:53.6, accepted:9,  declined:5  },
+  { name:"Жарылқасын Қажымұқан", hours:66, delta:150, avgTime:68.4, accepted:3, declined:0 },
 ].map((d,i) => ({
   ...d,
   accept: Math.round((d.accepted/(d.accepted+d.declined))*100),
