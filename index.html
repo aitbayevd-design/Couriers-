@@ -205,24 +205,23 @@ const TARGET_ACCEPT = 90;
 const colors = ["#3B6FE0","#1F6B4C","#8A2E2E","#6B4A20","#5B3B8C","#2E7D7A","#8C2E63","#2E6B8C","#5C6B1F","#3D3B8C"];
 
 const data = [
-  { name:"Есенбек Ернар",      hours:243, delta:-27,  avgTime:61.3, accepted:27, declined:21 },
-  { name:"Ташимов Бауыржан",   hours:218, delta:-2,   avgTime:47.2, accepted:29, declined:20 },
-  { name:"Сарсенбаев Саят",    hours:45,  delta:171,  avgTime:56.4, accepted:8,  declined:4  },
-  { name:"Ташимов Азамат",     hours:285, delta:-69,  avgTime:46.3, accepted:47, declined:15 },
-  { name:"Тугелбаев Досбол",   hours:160, delta:56,   avgTime:47.3, accepted:26, declined:3  },
-  { name:"Едилов Ерболат",     hours:214, delta:2,    avgTime:56.6, accepted:22, declined:2  },
-  { name:"Аязбеков Ануар",     hours:84,  delta:132,  avgTime:52.0, accepted:10, declined:5  },
-  { name:"Жарылқасын Қажымұқан", hours:220, delta:-4, avgTime:64.9, accepted:11, declined:0 },
-  { name:"Кистаубаева Раушан", hours:390, delta:-174, avgTime:47.7, accepted:40, declined:9  },
+  { name:"Есенбек Ернар",      hours:44, delta:172, avgTime:64.6, accepted:2, declined:8 },
+  { name:"Ташимов Бауыржан",   hours:44, delta:172, avgTime:44.8, accepted:5, declined:2 },
+  { name:"Сарсенбаев Саят",    hours:0,  delta:216, avgTime:0,    accepted:0, declined:0 },
+  { name:"Ташимов Азамат",     hours:42, delta:174, avgTime:55.7, accepted:2, declined:2 },
+  { name:"Тугелбаев Досбол",   hours:0,  delta:216, avgTime:0,    accepted:0, declined:0 },
+  { name:"Едилов Ерболат",     hours:53, delta:163, avgTime:58.1, accepted:1, declined:4 },
+  { name:"Жарылқасын Қажымұқан", hours:26, delta:190, avgTime:65.9, accepted:1, declined:0 },
+  { name:"Кистаубаева Раушан", hours:39, delta:177, avgTime:49.4, accepted:2, declined:2 },
 ].map((d,i) => ({
   ...d,
-  accept: Math.round((d.accepted/(d.accepted+d.declined))*100),
+  accept: (d.accepted+d.declined) > 0 ? Math.round((d.accepted/(d.accepted+d.declined))*100) : null,
   color: colors[i % colors.length],
   initials: d.name.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()
 }));
 
 function onPlan(d){ return d.delta <= 0; }
-function lowAccept(d){ return d.accept < TARGET_ACCEPT; }
+function lowAccept(d){ return d.accept !== null && d.accept < TARGET_ACCEPT; }
 function overallStatus(d){
   const hoursOk = onPlan(d);
   const acceptOk = d.accept >= TARGET_ACCEPT;
@@ -233,7 +232,8 @@ function overallStatus(d){
 
 function renderSummary(){
   const onPlanCount = data.filter(onPlan).length;
-  const avgAccept = (data.reduce((s,d)=>s+d.accept,0)/data.length);
+  const withAccept = data.filter(d=>d.accept!==null);
+  const avgAccept = withAccept.length ? withAccept.reduce((s,d)=>s+d.accept,0)/withAccept.length : 0;
   const reachedCount = data.filter(d=>d.accept>=TARGET_ACCEPT).length;
 
   document.getElementById('summary').innerHTML = `
@@ -291,7 +291,7 @@ function cardHTML(d){
     <div class="metric-row">
       <div class="row-top">
         <span class="m-label">% принятия</span>
-        <span class="m-value" style="color:${acceptGood?'var(--green)':'var(--red)'}">${d.accept}%</span>
+        <span class="m-value" style="color:${d.accept===null?'var(--muted)':(acceptGood?'var(--green)':'var(--red)')}">${d.accept===null?'—':d.accept+'%'}</span>
       </div>
       <div class="bar-track"><div class="bar-fill ${acceptGood?'good':'bad'}" style="width:${acceptPct}%"></div></div>
     </div>
@@ -302,7 +302,7 @@ function cardHTML(d){
     </div>
 
     <div class="card-foot">
-      <div><span class="time-label">Ср. время</span><span class="time-value ${timeClass}">${d.avgTime.toFixed(1)} мин <span class="arrow">${timeArrow}</span></span></div>
+      <div><span class="time-label">Ср. время</span>${d.avgTime>0 ? `<span class="time-value ${timeClass}">${d.avgTime.toFixed(1)} мин <span class="arrow">${timeArrow}</span></span>` : `<span class="time-value" style="color:var(--muted)">—</span>`}</div>
       <button class="dev-btn">Отклонения</button>
     </div>
   </div>`;
